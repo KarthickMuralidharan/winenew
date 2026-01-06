@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, RefreshControl, Alert, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, ScrollView, RefreshControl, Alert, Image, TouchableOpacity, Linking } from 'react-native';
 import { Text, Card, Appbar, Button, ActivityIndicator, Chip } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { NewsService, NewsDisplay } from '../utils/newsService';
@@ -202,7 +202,7 @@ export default function NewsScreen() {
                                             </Button>
                                         </View>
 
-                                        {item.tags && item.tags.length > 0 && (
+                                        {/* {item.tags && item.tags.length > 0 && (
                                             <View style={styles.tagContainer}>
                                                 {item.tags.slice(0, 3).map((tag, tagIndex) => (
                                                     <Chip
@@ -216,7 +216,7 @@ export default function NewsScreen() {
                                                     </Chip>
                                                 ))}
                                             </View>
-                                        )}
+                                        )} */}
                                     </Card.Content>
                                 </Card>
                             </TouchableOpacity>
@@ -285,6 +285,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginTop: 12,
         marginBottom: 8,
     },
     categoryContainer: {

@@ -114,13 +114,16 @@ export interface ColorBreakdown {
     type: string;
     count: number;
     percentage: number;
+    color: string;
+    icon: string;
+    gradient: string[];
 }
 
 export interface StockAlert {
-    bottleId: string;
-    name: string;
-    reason: string;
+    type: string;
     severity: 'low' | 'medium' | 'high';
+    message: string;
+    icon: string;
 }
 
 export interface DashboardStats {

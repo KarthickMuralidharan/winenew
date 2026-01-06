@@ -169,7 +169,7 @@ export default function DashboardScreen() {
                     <Card.Content>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                             <Text variant="titleMedium" style={{ color: '#8B4513', fontWeight: 'bold' }}>
-                                Collection Health
+                                Wine Collections 
                             </Text>
                             <Text variant="titleMedium" style={{ color: '#8B4513', fontWeight: 'bold' }}>
                                 {healthScore}/100
@@ -493,7 +493,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         margin: 16,
         right: 0,
-        bottom: 0,
+        bottom: 80, // Position above bottom navbar (navbar height ~60px + padding)
         elevation: 4,
     },
 });

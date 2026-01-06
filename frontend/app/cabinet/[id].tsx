@@ -184,12 +184,12 @@ export default function CabinetDetailScreen() {
                         </View>
                       </View>
 
-                      <View style={{ flexDirection: 'row', gap: 4, marginTop: 8, flexWrap: 'wrap' }}>
+                      <View style={{ flexDirection: 'row', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
                         <Chip
                           mode="outlined"
                           compact
                           textStyle={{ fontSize: 10 }}
-                          style={{ height: 22 }}
+                          style={{  paddingHorizontal: 4 }}
                         >
                           {item.details.type}
                         </Chip>
@@ -198,7 +198,7 @@ export default function CabinetDetailScreen() {
                             mode="outlined"
                             compact
                             textStyle={{ fontSize: 10 }}
-                            style={{ height: 22 }}
+                            style={{ paddingHorizontal: 4 }}
                           >
                             {item.details.country}
                           </Chip>
@@ -208,7 +208,7 @@ export default function CabinetDetailScreen() {
                             mode="outlined"
                             compact
                             textStyle={{ fontSize: 10 }}
-                            style={{ height: 22 }}
+                            style={{ paddingHorizontal: 4 }}
                           >
                             {item.details.region}
                           </Chip>

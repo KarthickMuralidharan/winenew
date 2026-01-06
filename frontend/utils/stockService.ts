@@ -1,5 +1,5 @@
 import { MockFirebaseService } from './mockFirebaseService';
-import { Bottle } from '../types';
+import { Bottle, ColorBreakdown } from '../types';
 
 export interface StockSummary {
     totalBottles: number;
@@ -221,15 +221,6 @@ export const StockService = {
         return 'Your collection needs improvement. Add more variety and check aging windows.';
     }
 };
-
-export interface ColorBreakdown {
-    type: string;
-    count: number;
-    percentage: number;
-    color: string;
-    icon: string;
-    gradient: string[];
-}
 
 export interface StockAlert {
     type: string;

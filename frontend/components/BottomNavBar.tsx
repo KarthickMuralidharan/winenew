@@ -71,7 +71,7 @@ export const BottomNavBar: React.FC = () => {
                         onPress={() => handlePress(item.route)}
                     >
                         <Avatar.Icon
-                            size={24}
+                            size={34}
                             icon={active ? (item.activeIcon || item.icon) : item.icon}
                             style={[styles.icon, active && styles.iconActive]}
                             color={active ? '#FFF' : '#8B4513'}
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#8B4513',
     },
     label: {
-        fontSize: 10,
+        fontSize: 11,
         fontWeight: 'bold',
         color: '#8B4513',
     },

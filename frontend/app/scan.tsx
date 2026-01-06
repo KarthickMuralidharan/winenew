@@ -15,8 +15,8 @@ export default function ScanScreen() {
     const [aiEnhanced, setAiEnhanced] = useState(false);
     const [permissionGranted, setPermissionGranted] = useState(true); // Demo mode
 
-    // Manual entry form state
-    const [formData, setFormData] = useState<WineLabelData>({
+    // Manual entry form state (using string for price to work with TextInput)
+    const [formData, setFormData] = useState<Omit<WineLabelData, 'price'> & { price?: string }>({
         name: '',
         winery: '',
         vintage: '',
@@ -135,13 +135,19 @@ export default function ScanScreen() {
     };
 
     const handleManualSubmit = () => {
-        const validation = CameraService.validateScanData(formData);
+        // Convert form data to WineLabelData format (price string to number)
+        const wineData: WineLabelData = {
+            ...formData,
+            price: formData.price ? parseFloat(formData.price) || undefined : undefined
+        };
+        
+        const validation = CameraService.validateScanData(wineData);
         if (!validation.valid) {
             Alert.alert('Validation Error', validation.errors.join('\n'));
             return;
         }
 
-        setScannedData(formData);
+        setScannedData(wineData);
         Alert.alert('Success', 'Manual entry saved! Review and add to cabinet.');
     };
 
@@ -156,7 +162,7 @@ export default function ScanScreen() {
             country: '',
             region: '',
             grape: '',
-            price: '',
+            price: '' as string,
             alcohol: '',
             volume: '750ml'
         });
@@ -405,7 +411,7 @@ export default function ScanScreen() {
                             <TextInput
                                 mode="outlined"
                                 label="Price"
-                                value={formData.price}
+                                value={formData.price || ''}
                                 onChangeText={(text) => setFormData({ ...formData, price: text })}
                                 style={styles.input}
                                 theme={{ colors: { primary: '#8B4513' } }}

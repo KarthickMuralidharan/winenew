@@ -86,7 +86,7 @@ export default function StockScreen() {
                     <Card.Content>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                             <Text variant="titleMedium" style={{ color: '#8B4513', fontWeight: 'bold' }}>
-                                Collection Health Score
+                                Wine Collection  
                             </Text>
                             <Text variant="titleMedium" style={{ color: '#8B4513', fontWeight: 'bold', fontSize: 20 }}>
                                 {healthScore}/100
@@ -97,7 +97,7 @@ export default function StockScreen() {
                             color={healthScore >= 70 ? '#228B22' : healthScore >= 50 ? '#FFA500' : '#DC143C'}
                             style={{ height: 10, borderRadius: 12, marginBottom: 8 }}
                         />
-                        <Text variant="bodyMedium" style={{ color: '#333', lineHeight: 20 }}>
+                        <Text variant="bodyMedium" style={{ color: '#333', lineHeight: 20, marginTop: 10 }}>
                             {healthDescription}
                         </Text>
                     </Card.Content>
@@ -246,7 +246,7 @@ export default function StockScreen() {
                                             <Chip
                                                 mode="outlined"
                                                 compact
-                                                style={{ height: 24 }}
+                                                style={{ height: 34 }}
                                                 textStyle={{ fontSize: 12, fontWeight: 'bold' }}
                                             >
                                                 {count as number}
@@ -305,6 +305,7 @@ const styles = StyleSheet.create({
         padding: 16,
         marginBottom: 16,
         elevation: 2,
+        marginTop: 38,
     },
     statsGrid: {
         flexDirection: 'row',

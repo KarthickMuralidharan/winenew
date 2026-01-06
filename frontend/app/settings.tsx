@@ -155,7 +155,7 @@ export default function SettingsScreen() {
                 Subscription
               </Text>
             </View>
-            <Text variant="bodySmall" style={{ color: theme.colors.text, marginBottom: 12 }}>
+            <Text variant="bodySmall" style={{ color: theme.colors.onSurface, marginBottom: 12 }}>
               Upgrade to Premium for AI features, multi-cabinet support, and cloud sync.
             </Text>
             <Button
@@ -179,10 +179,10 @@ export default function SettingsScreen() {
             <Text variant="titleMedium" style={{ color: theme.colors.primary, fontWeight: 'bold', marginBottom: 8 }}>
               About Wine Cabinet App
             </Text>
-            <Text variant="bodySmall" style={{ color: theme.colors.textSecondary, lineHeight: 18 }}>
+            <Text variant="bodySmall" style={{ color: theme.colors.onSurfaceVariant, lineHeight: 18 }}>
               Version 1.0.0
             </Text>
-            <Text variant="bodySmall" style={{ color: theme.colors.textSecondary, lineHeight: 18, marginTop: 4 }}>
+            <Text variant="bodySmall" style={{ color: theme.colors.onSurfaceVariant, lineHeight: 18, marginTop: 4 }}>
               A digital twin for your wine collection. Track inventory, get AI pairing recommendations, and manage your cellar with real-time insights.
             </Text>
           </Card.Content>
@@ -194,7 +194,7 @@ export default function SettingsScreen() {
             <Text variant="titleMedium" style={{ color: theme.colors.primary, fontWeight: 'bold', marginBottom: 8 }}>
               Demo Mode
             </Text>
-            <Text variant="bodySmall" style={{ color: theme.colors.text, lineHeight: 18 }}>
+            <Text variant="bodySmall" style={{ color: theme.colors.onSurface, lineHeight: 18 }}>
               All data is stored locally on your device. No cloud sync is active. This is a fully functional demo of the Wine Cabinet App with real AI integration when API keys are provided.
             </Text>
           </Card.Content>

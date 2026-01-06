@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, Alert, Image } from 'react-native';
-import { Text, Button, Card, Appbar, Avatar, Chip } from 'react-native-paper';
+import { View, StyleSheet, ScrollView, Alert, Image, Modal } from 'react-native';
+import { Text, Button, Card, Appbar, Avatar, Chip, TextInput } from 'react-native-paper';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { MockFirebaseService } from '../../utils/mockFirebaseService';
 import { LogoService, LogoResult } from '../../utils/logoService';
@@ -11,6 +11,10 @@ export default function BottleDetailScreen() {
   const [bottle, setBottle] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [logo, setLogo] = useState<LogoResult | null>(null);
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [showNotesModal, setShowNotesModal] = useState(false);
+  const [rating, setRating] = useState('');
+  const [notes, setNotes] = useState('');
 
   useEffect(() => {
     loadBottle();
@@ -55,34 +59,36 @@ export default function BottleDetailScreen() {
       [
         { text: 'Cancel', style: 'cancel' },
         { text: 'Drink', onPress: () => {
-          Alert.prompt(
-            'Rate This Wine',
-            'How would you rate this wine? (1-10)',
-            [
-              { text: 'Cancel', style: 'cancel' },
-              { text: 'Submit', onPress: async (rating) => {
-                const notes = await new Promise<string | null>(resolve => {
-                  Alert.prompt(
-                    'Add Notes (Optional)',
-                    'Any tasting notes?',
-                    [
-                      { text: 'Skip', onPress: () => resolve(null), style: 'cancel' },
-                      { text: 'Save', onPress: (text) => resolve(text || null) }
-                    ],
-                    'plain-text'
-                  );
-                });
-
-                await MockFirebaseService.consumeBottle(id as string, parseInt(rating || '0'), notes || undefined);
-                Alert.alert('Enjoyed!', `You rated this wine ${rating}/10. Moved to history.`);
-                router.back();
-              }}
-            ],
-            'plain-text'
-          );
+          setRating('');
+          setNotes('');
+          setShowRatingModal(true);
         }}
       ]
     );
+  };
+
+  const handleRatingSubmit = () => {
+    const ratingNum = parseInt(rating);
+    if (isNaN(ratingNum) || ratingNum < 1 || ratingNum > 10) {
+      Alert.alert('Invalid Rating', 'Please enter a rating between 1 and 10');
+      return;
+    }
+    setShowRatingModal(false);
+    setShowNotesModal(true);
+  };
+
+  const handleNotesSubmit = async () => {
+    setShowNotesModal(false);
+    await MockFirebaseService.consumeBottle(id as string, parseInt(rating), notes || undefined);
+    Alert.alert('Enjoyed!', `You rated this wine ${rating}/10. Moved to history.`);
+    router.back();
+  };
+
+  const handleSkipNotes = async () => {
+    setShowNotesModal(false);
+    await MockFirebaseService.consumeBottle(id as string, parseInt(rating), undefined);
+    Alert.alert('Enjoyed!', `You rated this wine ${rating}/10. Moved to history.`);
+    router.back();
   };
 
   const handleOpen = () => {
@@ -338,6 +344,103 @@ export default function BottleDetailScreen() {
           </Card.Content>
         </Card>
       </ScrollView>
+
+      {/* Rating Modal */}
+      <Modal
+        visible={showRatingModal}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowRatingModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <Card style={styles.modalCard}>
+            <Card.Content>
+              <Text variant="titleLarge" style={{ color: '#8B4513', fontWeight: 'bold', marginBottom: 12 }}>
+                Rate This Wine
+              </Text>
+              <Text variant="bodyMedium" style={{ color: '#666', marginBottom: 16 }}>
+                How would you rate this wine? (1-10)
+              </Text>
+              <TextInput
+                mode="outlined"
+                label="Rating (1-10)"
+                value={rating}
+                onChangeText={setRating}
+                keyboardType="numeric"
+                style={{ marginBottom: 16 }}
+                theme={{ colors: { primary: '#8B4513' } }}
+              />
+              <View style={styles.modalButtons}>
+                <Button
+                  mode="outlined"
+                  onPress={() => setShowRatingModal(false)}
+                  style={{ flex: 1, borderColor: '#8B4513' }}
+                  labelStyle={{ color: '#8B4513' }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  mode="contained"
+                  onPress={handleRatingSubmit}
+                  style={{ flex: 1, backgroundColor: '#8B4513', marginLeft: 8 }}
+                  labelStyle={{ color: '#FFF' }}
+                >
+                  Next
+                </Button>
+              </View>
+            </Card.Content>
+          </Card>
+        </View>
+      </Modal>
+
+      {/* Notes Modal */}
+      <Modal
+        visible={showNotesModal}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowNotesModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <Card style={styles.modalCard}>
+            <Card.Content>
+              <Text variant="titleLarge" style={{ color: '#8B4513', fontWeight: 'bold', marginBottom: 12 }}>
+                Add Notes (Optional)
+              </Text>
+              <Text variant="bodyMedium" style={{ color: '#666', marginBottom: 16 }}>
+                Any tasting notes?
+              </Text>
+              <TextInput
+                mode="outlined"
+                label="Tasting Notes"
+                value={notes}
+                onChangeText={setNotes}
+                multiline
+                numberOfLines={4}
+                style={{ marginBottom: 16 }}
+                theme={{ colors: { primary: '#8B4513' } }}
+              />
+              <View style={styles.modalButtons}>
+                <Button
+                  mode="outlined"
+                  onPress={handleSkipNotes}
+                  style={{ flex: 1, borderColor: '#8B4513' }}
+                  labelStyle={{ color: '#8B4513' }}
+                >
+                  Skip
+                </Button>
+                <Button
+                  mode="contained"
+                  onPress={handleNotesSubmit}
+                  style={{ flex: 1, backgroundColor: '#8B4513', marginLeft: 8 }}
+                  labelStyle={{ color: '#FFF' }}
+                >
+                  Save
+                </Button>
+              </View>
+            </Card.Content>
+          </Card>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -426,5 +529,22 @@ const styles = StyleSheet.create({
   outlineLabel: {
     color: '#8B4513',
     fontWeight: 'bold',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  modalCard: {
+    width: '100%',
+    maxWidth: 400,
+    backgroundColor: '#FFF',
+    borderRadius: 16,
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    gap: 8,
   },
 });
